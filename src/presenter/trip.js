@@ -10,6 +10,7 @@ export default class Trip {
     this.component = new ListPointsView();
     this.container = container;
   }
+
   init() {
     render(new SortView(), this.container, RenderPosition.BEFOREEND);
     render(this.component, this.container);
@@ -17,7 +18,7 @@ export default class Trip {
     render(new EditPointView(), this.container, RenderPosition.BEFOREEND);
 
     for (let i = 0; i < 3; i++) {
-      render(new PointView(), this.container, RenderPosition.BEFOREEND)
+      render(new PointView(), this.container, RenderPosition.BEFOREEND);
     }
   }
 }

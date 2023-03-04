@@ -12,7 +12,7 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin({
             patterns: [
-                { from: './public', to: './build'}
+                { from: 'public'}
             ]
         }),
 

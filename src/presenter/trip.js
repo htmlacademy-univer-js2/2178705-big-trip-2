@@ -11,14 +11,16 @@ export default class Trip {
     this.container = container;
   }
 
-  init() {
+  init(pointModel) {
+    this.pointModel = pointModel;
+    this.boardTrip = [...this.pointModel.getPoints()];
     render(new SortView(), this.container, RenderPosition.BEFOREEND);
     render(this.component, this.container);
-    render(new PointCreateView(), this.container, RenderPosition.BEFOREEND);
-    render(new EditPointView(), this.container, RenderPosition.BEFOREEND);
+    //render(new PointCreateView(), this.container, RenderPosition.BEFOREEND);
+    render(new EditPointView(this.boardTrip[0]), this.container, RenderPosition.BEFOREEND);
 
-    for (let i = 0; i < 3; i++) {
-      render(new PointView(), this.container, RenderPosition.BEFOREEND);
+    for (let i = 0; i < this.boardTrip.length; i++) {
+      render(new PointView(this.boardTrip[i]), this.container, RenderPosition.BEFOREEND);
     }
   }
 }

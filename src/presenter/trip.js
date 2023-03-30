@@ -5,6 +5,7 @@ import SortView from '../view/sort-view';
 import ListPointsView from '../view/list-points-view';
 import PointView from '../view/point-view';
 import PointModel from '../model/point-model';
+import EmptyListView from '../view/empty-list-view';
 
 
 export default class Trip {
@@ -57,17 +58,18 @@ export default class Trip {
 
   init() {
     const points = this.#pointModel.points;
-    const destinations = this.#pointModel.destinations;
-    const offersByType = this.#pointModel.offersByType;
 
-    render(new SortView(), this.#component.element);
-    render(this.#component, this.#container);
-    render(new PointCreateView(),  this.#component.element);
-    // render(new EditPointView(points[1], destinations, offersByType), this.#container, RenderPosition.BEFOREEND);
-
-    for (const point of this.#pointModel.points) {
-      // render(new PointView(point, destinations, offersByType), this.#container, RenderPosition.BEFOREEND);
-      this.#renderPoint(point);
+    if (points.length === 0) {
+      render(new EmptyListView(), this.#container);
+    } else {
+      render(new SortView(), this.#component.element);
+      render(this.#component, this.#container);
+      for (const point of this.#pointModel.points) {
+        // render(new PointView(point, destinations, offersByType), this.#container, RenderPosition.BEFOREEND);
+        this.#renderPoint(point);
+      }
     }
+    // render(new PointCreateView(),  this.#component.element);
+    // render(new EditPointView(points[1], destinations, offersByType), this.#container, RenderPosition.BEFOREEND);
   }
 }

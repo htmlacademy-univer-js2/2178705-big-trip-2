@@ -6,20 +6,24 @@ const createPointTemplate = (point, destinations, offersByType) => {
   const pointDestination = destinations.find((dest) => dest.id === point.destination);
   const pointTypeOffers = offersByType.find((off) => off.type === point.type).offers;
   const pointOffers = pointTypeOffers.filter((offer) => point.offers.includes(offer.id))
+  const start = point.dateFrom !== null ? humanizeDate(point.dateFrom, dateFormat.MAIN) : '';
+  const end = point.dateTo !== null ? humanizeDate(point.dateTo, dateFormat.MAIN): '';
+  const duration = getDuration(point.dateFrom, point.dateTo);
+
   return (`<li class="trip-events__item">
                   <div class="event">
-                    <time class="event__date" datetime="${humanizeDate(point.dateFrom, dateFormat.MAIN)}">${humanizeDate(point.dateFrom, dateFormat.MAIN)}</time>
+                    <time class="event__date" datetime="${humanizeDate(point.dateFrom, dateFormat.SERVICE_MAIN)}">${humanizeDate(point.dateFrom, dateFormat.MAIN)}</time>
                     <div class="event__type">
                       <img class="event__type-icon" width="42" height="42" src="img/icons/${point.type}.png" alt="Event type icon">
                     </div>
                     <h3 class="event__title">${point.type} ${pointDestination.name}</h3>
                     <div class="event__schedule">
                       <p class="event__time">
-                        <time class="event__start-time" datetime="${humanizeDate(point.dateFrom, dateFormat.VIEW)}">${humanizeDate(point.dateFrom, dateFormat.VIEW)}</time>
+                        <time class="event__start-time" datetime="${point.dateFrom}">${(start === end) ? humanizeDate(point.dateFrom, dateFormat.VIEW) : start}</time>
                         &mdash;
-                        <time class="event__end-time" datetime="${humanizeDate(point.dateTo, dateFormat.VIEW)}">${humanizeDate(point.dateTo, dateFormat.VIEW)}</time>
+                        <time class="event__end-time" datetime="${point.dateTo}">${(start === end) ? humanizeDate(point.dateTo, dateFormat.VIEW) : end}</time>
                       </p>
-                      <p class="event__duration">${getDuration(point.dateFrom, point.dateTo)}</p>
+                      <p class="event__duration">${duration}</p>
                     </div>
                     <p class="event__price">
                       &euro;&nbsp;<span class="event__price-value">${point.basePrice}</span>
@@ -49,23 +53,28 @@ const createPointTemplate = (point, destinations, offersByType) => {
 };
 
 export default class PointView {
+  #element = null;
+  #point = null;
+  #destinations = null;
+  #offersByType = null;
+
   constructor(point, destinations, offersByType) {
-    this.point = point;
-    this.destinations = destinations;
-    this.offersByType = offersByType;
+    this.#point = point;
+    this.#destinations = destinations;
+    this.#offersByType = offersByType;
   }
-  getTemplate() {
-    return createPointTemplate(this.point, this.destinations, this.offersByType);
+  get template() {
+    return createPointTemplate(this.#point, this.#destinations, this.#offersByType);
   }
 
-  getElement() {
-    if (!this.element){
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element){
+      this.#element = createElement(this.template);
     }
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

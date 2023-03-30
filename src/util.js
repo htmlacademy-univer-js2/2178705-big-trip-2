@@ -1,4 +1,4 @@
-import {dateFormat, TimeCount} from './const';
+import {TimeCount} from './const';
 import dayjs from 'dayjs';
 
 export const humanizeDate = (rawDate, dateFormat) => dayjs(rawDate).format(dateFormat);
@@ -18,3 +18,4 @@ export const getDuration = (startDate, endDate) => {
 
   return `${currentDays} ${currentHours} ${currentMinutes}`;
 };
+

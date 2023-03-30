@@ -1,12 +1,12 @@
 export const destinations = [
   {
     "id": 1,
-    "description": "Chamonix, is a beautiful city, a true asian pearl, with crowded streets.",
-    "name": "Chamonix",
+    "description": "London is capital of Great Britain!",
+    "name": "London",
     "pictures": [
       {
         "src": "http://picsum.photos/300/200?r=0.0762583005163317",
-        "description": "Chamonix parliament building"
+        "description": "London tower."
       }
     ]
   },

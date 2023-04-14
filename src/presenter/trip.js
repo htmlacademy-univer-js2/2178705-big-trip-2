@@ -1,10 +1,8 @@
 import {render, replace} from '../framework/render';
-import PointCreateView from '../view/point-create-view';
 import EditPointView from '../view/edit-point-view';
 import SortView from '../view/sort-view';
 import ListPointsView from '../view/list-points-view';
 import PointView from '../view/point-view';
-import PointModel from '../model/point-model';
 import EmptyListView from '../view/empty-list-view';
 
 
@@ -12,10 +10,10 @@ export default class Trip {
   #component = null;
   #container = null;
   #pointModel = null;
-  constructor({container}) {
+  constructor({container}, pointModel) {
     this.#component = new ListPointsView();
     this.#container = container;
-    this.#pointModel = new PointModel();
+    this.#pointModel = pointModel;
   }
 
   #renderPoint = (point) => {

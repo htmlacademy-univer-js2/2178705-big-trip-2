@@ -1,4 +1,4 @@
-import {TimeCount} from './const';
+import {dateFormat, TimeCount} from './const';
 import dayjs from 'dayjs';
 
 export const humanizeDate = (rawDate, dateFormat) => dayjs(rawDate).format(dateFormat);
@@ -17,5 +17,21 @@ export const getDuration = (startDate, endDate) => {
   const currentMinutes = (minutes) ? `${minutes}M` : '';
 
   return `${currentDays} ${currentHours} ${currentMinutes}`;
+};
+
+const FILTER_TYPES = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PAST: 'past'
+};
+
+const checkRelativeDatesToCurrent = (dateFrom, dateTo) => dateFrom.isBefore(dayjs()) && dateTo.isAfter(dayjs());
+const isEventPlanned = (dateFrom, dateTo) => dateFrom.isAfter(dayjs()) || checkRelativeDatesToCurrent(dateFrom, dateTo);
+const isEventPassed = (dateFrom, dateTo) => dateTo.isBefore(dayjs()) || checkRelativeDatesToCurrent(dateFrom, dateTo);
+
+export const filter = {
+  [FILTER_TYPES.EVERYTHING]: (points) => points.map((point) => point),
+  [FILTER_TYPES.FUTURE]: (points) => points.filter((point) => isEventPlanned(dayjs(point.dateFrom), dayjs(point.dateTo))),
+  [FILTER_TYPES.PAST]: (points) => points.filter((point) => isEventPassed(dayjs(point.dateFrom), dayjs(point.dateTo)))
 };
 

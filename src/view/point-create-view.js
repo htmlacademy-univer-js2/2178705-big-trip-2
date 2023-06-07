@@ -1,3 +1,4 @@
+import {createElement} from '../framework/render';
 import AbstractView from '../framework/view/abstract-view';
 
 const createPointTemplate = () => (`
@@ -166,8 +167,20 @@ const createPointTemplate = () => (`
 );
 
 export default class PointCreateView extends AbstractView{
+  #element = null;
 
   get template() {
     return createPointTemplate();
+  }
+
+  get element() {
+    if (!this.#element){
+      this.#element = createElement(this.template);
+    }
+    return this.#element;
+  }
+
+  removeElement() {
+    this.#element = null;
   }
 }

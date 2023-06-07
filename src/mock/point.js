@@ -1,32 +1,20 @@
-export const  points = [
-  {
-    'basePrice': 1110,
-    'dateFrom': '2018-07-10T10:55:56.845Z',
-    'dateTo': '2018-07-10T11:22:13.375Z',
-    'destination': 3,
-    'id': 1,
-    'isFavorite': false,
-    'offers': [5],
-    'type': 'bus'
-  },
-  {
-    'basePrice': 110000,
-    'dateFrom': '2022-07-10T22:55:56.845Z',
-    'dateTo': '2022-07-11T11:12:13.375Z',
-    'destination': 1,
-    'id': 2,
-    'isFavorite': true,
-    'offers': [1, 2],
-    'type': 'taxi'
-  },
-  {
-    'basePrice': 2010,
-    'dateFrom': '2019-07-10T02:55:56.845Z',
-    'dateTo': '2019-07-11T11:22:13.375Z',
-    'destination': 2,
-    'id': 0,
-    'isFavorite': true,
-    'offers': [3, 4],
-    'type': 'drive'
-  },
-];
+import dayjs from 'dayjs';
+import { getRndNumber } from '../util';
+import { POINT_TYPES, DAY_TYPES } from '../const';
+
+
+export const getPoint = (id) => {
+  let currentTime = dayjs().add(getRndNumber(-7, 7), DAY_TYPES[getRndNumber(0, 1)]);
+  const dateFrom = currentTime;
+  const dateTo = currentTime.add(getRndNumber(2, 7), DAY_TYPES[getRndNumber(0, 1)]);
+  return {
+    basePrice: getRndNumber(50, 500),
+    dateFrom: dateFrom,
+    dateTo: dateTo,
+    destination: getRndNumber(0, 9),
+    id: id,
+    isFavorite: Boolean(getRndNumber(0, 1)),
+    offers: Array.from({ length: getRndNumber(1, 3) }, () => getRndNumber(0, 4)),
+    type: POINT_TYPES[getRndNumber(0, POINT_TYPES.length - 1)],
+  };
+};

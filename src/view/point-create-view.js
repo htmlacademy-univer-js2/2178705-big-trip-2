@@ -1,4 +1,5 @@
-import {createElement} from '../render';
+import {createElement} from '../framework/render';
+import AbstractView from '../framework/view/abstract-view';
 
 const createPointTemplate = () => (`
  <li class="trip-events__item">
@@ -165,7 +166,7 @@ const createPointTemplate = () => (`
     </li>`
 );
 
-export default class PointCreateView {
+export default class PointCreateView extends AbstractView{
   #element = null;
 
   get template() {

@@ -1,35 +1,14 @@
-export const destinations = [
-  {
-    'id': 1,
-    'description': 'London is capital of Great Britain!',
-    'name': 'London',
-    'pictures': [
-      {
-        'src': 'http://picsum.photos/300/200?r=0.0762583005163317',
-        'description': 'London tower.'
-      }
-    ]
-  },
-  {
-    'id': 2,
-    'description': 'Yekaterinburg is famous city in Russia!',
-    'name': 'Yekaterinburg',
-    'pictures': [
-      {
-        'src': 'http://picsum.photos/300/200?r=0.0762563006163317',
-        'description': 'Chirch'
-      }
-    ]
-  },
-  {
-    'id': 3,
-    'description': 'Moscow is capital of Russia!',
-    'name': 'Moscow',
-    'pictures': [
-      {
-        'src': 'http://picsum.photos/300/200?r=0.0762563005163317',
-        'description': 'Kremlin'
-      }
-    ]
-  }
-]
+import { getRndNumber } from '../util';
+import { CITIES, DESCRIPTIONS, IMAGE_REFERENCE } from '../const';
+
+export const getDestination = (id) => ({
+  id: id,
+  description: DESCRIPTIONS[getRndNumber(0, DESCRIPTIONS.length - 1)],
+  name: CITIES[getRndNumber(0, CITIES.length - 1)],
+  pictures: [
+    {
+      src: `${IMAGE_REFERENCE}${getRndNumber(0, 100)}`,
+      description: DESCRIPTIONS[getRndNumber(0, DESCRIPTIONS.length - 1)],
+    },
+  ],
+});

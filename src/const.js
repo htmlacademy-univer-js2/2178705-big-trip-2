@@ -20,6 +20,18 @@ export const TITLES_OFFER = [
   'Upgrade to a business class'
 ];
 
+export const SORT_DATE = {
+  DAY: (firstPoint, secondPoint) => firstPoint.dateFrom.diff(secondPoint.dateFrom),
+  TIME: (firstPoint, secondPoint) => secondPoint.dateFrom.diff(secondPoint.dateTo) - firstPoint.dateFrom.diff(firstPoint.dateTo),
+  PRICE: (firstPoint, secondPoint) => firstPoint.basePrice - secondPoint.basePrice,
+};
+
+export const SORT_TYPES = {
+  DAY: 'DAY',
+  TIME: 'TIME',
+  PRICE: 'PRICE',
+};
+
 export const IMAGE_REFERENCE = 'http://picsum.photos/248/152?r=';
 export const DAY_TYPES = ['d', 'h'];
 

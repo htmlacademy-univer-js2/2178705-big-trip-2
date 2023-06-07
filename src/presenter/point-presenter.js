@@ -40,15 +40,15 @@ export default class PointPresenter {
       destinations: this.#destinations,
       offersByType: this.#offersByType,
       editClick: this.#handleEditClick,
-      favoriteClick: this.#handleFavouriteClick,
+      favoriteClick: this.#handleFavoriteClick,
     });
 
     this.#editPointComponent = new EditPointView({
       point: point,
       destinations: this.#destinations,
       offersByType: this.#offersByType,
-      saveClick: this.#handleSubmitForm,
-      favoriteClick: this.#handleFavouriteClick,
+      saveClick: this.#handleSaveForm,
+      closeClick: this.#handleCloseForm,
     });
 
     if (prevPointComponent === null && prevEditPointComponent === null) {
@@ -73,6 +73,11 @@ export default class PointPresenter {
       this.#replaceFormToPoint();
     }
   };
+
+  destroy = () => {
+    remove(this.#pointComponent);
+    remove(this.#editPointComponent);
+  }
 
   #onEscKeyDown = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
@@ -99,11 +104,15 @@ export default class PointPresenter {
     this.#replacePointToForm();
   };
 
-  #handleSubmitForm = () => {
+  #handleSaveForm = () => {
     this.#replaceFormToPoint();
   };
 
-  #handleFavouriteClick = () => {
+  #handleCloseForm = () => {
+    this.#replaceFormToPoint();
+  };
+
+  #handleFavoriteClick = () => {
     this.#changeData({ ...this.#point, isFavorite: !this.#point.isFavorite });
   };
 }

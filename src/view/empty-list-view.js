@@ -1,11 +1,9 @@
 import AbstractView from '../framework/view/abstract-view';
 
-const createEmptyListTemplate = () => (
-  ` <p class="trip-events__msg">Click New Event to create your first point</p>`
-);
+const createEmptyPointsTemplate = () => '<p class="trip-events__msg">Click New Event to create your first point</p>';
 
-export default class EmptyListView extends  AbstractView {
+export default class EmptyPointView extends AbstractView {
   get template() {
-    return createEmptyListTemplate();
+    return createEmptyPointsTemplate();
   }
 }

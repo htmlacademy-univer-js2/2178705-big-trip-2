@@ -1,37 +1,42 @@
-import {dateFormat, TimeCount} from './const';
-import dayjs from 'dayjs';
-
-export const humanizeDate = (rawDate, dateFormat) => dayjs(rawDate).format(dateFormat);
-export const getDuration = (startDate, endDate) => {
-  const start = dayjs(startDate);
-  const end = dayjs(endDate);
-  const diff = end.diff(start, 'minute');
-  const totalMinutesInDay = TimeCount.MINUTES * TimeCount.HOURS;
-
-  const days = Math.floor(diff / totalMinutesInDay);
-  const hours = Math.floor(((diff - days * totalMinutesInDay) / TimeCount.MINUTES));
-  const minutes = diff - (days * totalMinutesInDay + hours * TimeCount.MINUTES);
-
-  const currentDays = (days) ? `${days}D` : '';
-  const currentHours = (hours) ? `${hours}H` : '';
-  const currentMinutes = (minutes) ? `${minutes}M` : '';
-
-  return `${currentDays} ${currentHours} ${currentMinutes}`;
+export const getRndNumber = (min, max) => {
+  const random = min + Math.random() * (max + 1 - min);
+  return Math.floor(random);
 };
 
-const FILTER_TYPES = {
-  EVERYTHING: 'everything',
-  FUTURE: 'future',
-  PAST: 'past'
+export function goUpperCaseLetter(str) {
+  if (!str) {
+    return str;
+  }
+
+  return str[0].toUpperCase() + str.slice(1);
+}
+
+export const humanizeDateTime = (dateFrom, dateTo) => {
+  const oneMinuteInMilliseconds = 60 * 1000;
+  const oneHourInMilliseconds = 60 * oneMinuteInMilliseconds;
+  const oneDayInMilliseconds = 24 * oneHourInMilliseconds;
+
+  const timeBetween = dateTo.diff(dateFrom);
+  if (timeBetween > oneDayInMilliseconds) {
+    return `${parseInt(timeBetween / oneDayInMilliseconds, 10)}D ${parseInt((timeBetween % oneDayInMilliseconds) / oneHourInMilliseconds, 10)}H ${
+      parseInt(timeBetween % oneHourInMilliseconds, 10) / oneMinuteInMilliseconds
+    }M`;
+  } else if (timeBetween > oneHourInMilliseconds) {
+    return `${parseInt((timeBetween % oneDayInMilliseconds) / oneHourInMilliseconds, 10)}H ${parseInt(timeBetween % oneHourInMilliseconds, 10) / oneMinuteInMilliseconds}M`;
+  } else {
+    return `${parseInt(timeBetween % oneHourInMilliseconds, 10) / oneMinuteInMilliseconds}M`;
+  }
 };
 
-const checkRelativeDatesToCurrent = (dateFrom, dateTo) => dateFrom.isBefore(dayjs()) && dateTo.isAfter(dayjs());
-const isEventPlanned = (dateFrom, dateTo) => dateFrom.isAfter(dayjs()) || checkRelativeDatesToCurrent(dateFrom, dateTo);
-const isEventPassed = (dateFrom, dateTo) => dateTo.isBefore(dayjs()) || checkRelativeDatesToCurrent(dateFrom, dateTo);
 
-export const filter = {
-  [FILTER_TYPES.EVERYTHING]: (points) => points.map((point) => point),
-  [FILTER_TYPES.FUTURE]: (points) => points.filter((point) => isEventPlanned(dayjs(point.dateFrom), dayjs(point.dateTo))),
-  [FILTER_TYPES.PAST]: (points) => points.filter((point) => isEventPassed(dayjs(point.dateFrom), dayjs(point.dateTo)))
+export const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [...items.slice(0, index), update, ...items.slice(index + 1)];
 };
 
+export const isDateBefore = (dateFrom, dateTo) => dateTo.diff(dateFrom) > 0;

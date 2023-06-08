@@ -60,7 +60,7 @@ export default class PointPresenter {
       replace(this.#pointComponent, prevPointComponent);
     }
 
-    if (this.#mode === Mode.EDITING) {
+    else if (this.#mode === Mode.EDITING) {
       render(this.#editPointComponent, prevEditPointComponent);
     }
 
@@ -100,16 +100,16 @@ export default class PointPresenter {
     this.#mode = Mode.DEFAULT;
   };
 
-  #handleEditClick = () => {
-    this.#replacePointToForm();
-  };
-
   #handleSaveForm = () => {
     this.#replaceFormToPoint();
   };
 
   #handleCloseForm = () => {
     this.#replaceFormToPoint();
+  };
+
+  #handleEditClick = () => {
+    this.#replacePointToForm();
   };
 
   #handleFavoriteClick = () => {

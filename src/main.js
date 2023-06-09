@@ -1,33 +1,41 @@
-import { render } from './framework/render';
-import Trip from './presenter/trip-presenter';
-import PointModel from './model/point-model';
-import FiltersView from './view/filter-view';
-import MenuView from './view/menu-view';
-import { getFilter } from './mock/filter.js';
-import { getPoints, getDestinations, getOffersType } from './mock/point.js';
+import { render } from './framework/render.js';
+import MenuView from './view/menu-view.js';
+import NewPointButtonView from './view/new-point-button-view.js';
+import FilterPresenter from './presenter/filter-presenter.js';
+import BoardPresenter from './presenter/trip-presenter.js';
+import FilterModel from './model/filter-model.js';
+import PointsModel from './model/point-model.js';
+import { getPoints, getDestinations, getOffersByType } from './mock/point.js';
 
 
-const headerElement = document.querySelector('.trip-main');
-const mainElement = document.querySelector('.page-main');
+const menuContainer = document.querySelector('.trip-controls__navigation');
+const headerContainer = document.querySelector('.trip-main');
+const filterContainer = document.querySelector('.trip-controls__filters');
+const tripContainer = document.querySelector('.trip-events');
+
 
 const initApp = async () => {
-  const points = await getPoints();
-  const offersType = await getOffersType();
-  const destinations = await getDestinations();
-
-  const pointsModel = new PointModel();
-  pointsModel.init(points, offersType, destinations);
-
-  const boardPresenter = new Trip(
-    mainElement.querySelector('.trip-events'),
-    pointsModel
-  );
-  boardPresenter.init();
-
-  const filters = getFilter(pointsModel.points);
-
-  render(new FiltersView({ filters }), headerElement.querySelector('.trip-controls__filters'));
-  render(new MenuView(), headerElement.querySelector('.trip-controls__navigation'));
+  render(new MenuView, menuContainer);
+  const points = getPoints();
+  const offersByType = getOffersByType();
+  const destinations = getDestinations();
+  const pointsModel = new PointsModel();
+  pointsModel.init(points, destinations, offersByType);
+  const filterModel = new FilterModel();
+  const filterPresenter = new FilterPresenter(filterContainer, filterModel, pointsModel);
+  filterPresenter.init();
+  const tripPresenter = new BoardPresenter({container: tripContainer}, pointsModel, filterModel);
+  tripPresenter.init();
+  const newPointButtonComponent = new NewPointButtonView();
+  const handleNewPointFormClose = () => {
+    newPointButtonComponent.element.disabled = false;
+  };
+  const handleNewPointButtonClick = () => {
+    tripPresenter.createPoint(handleNewPointFormClose);
+    newPointButtonComponent.element.disabled = true;
+  };
+  render(newPointButtonComponent, headerContainer);
+  newPointButtonComponent.setClickHandler(handleNewPointButtonClick);
 };
 
 initApp();

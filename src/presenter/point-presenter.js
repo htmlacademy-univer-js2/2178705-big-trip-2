@@ -16,18 +16,22 @@ export default class PointPresenter{
   #changeMode = null;
   #mode = MODE.PREVIEW
   #isNewPoint = false;
+  #destinationsModel = null;
+  #offersModel = null;
 
-  constructor(pointListContainer, pointsModel, changeData, changeMode){
+  constructor(pointListContainer, pointsModel, destinationsModel, offersModel, changeData, changeMode){
     this.container = pointListContainer;
     this.#pointsModel = pointsModel;
     this.#changeData = changeData;
     this.#changeMode = changeMode;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
   }
 
   init(point) {
     this.#point = point;
-    this.#destinations = this.#pointsModel.destinations;
-    this.#offers = this.#pointsModel.offers;
+    this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
 
     const previewPointViewComponent = this.#pointViewComponent;
     const previewEditingPointComponent =  this.#editingPointComponent;

@@ -4,19 +4,23 @@ import { UPDATE_TYPES, USER_ACTIONS } from '../const.js';
 import { nanoid } from 'nanoid';
 
 export default class NewPointPresenter {
-  #container = null;
+  #pointListContainer = null;
   #editingPointComponent = null;
   #changeData = null;
   #destroyCallback = null;
   #pointsModel = null;
+  #destinationsModel = null;
+  #offersModel = null;
   #destinations = null;
   #offers = null;
   #isNewPoint = true;
 
-  constructor(pointListContainer, changeData, pointsModel) {
-    this.container = pointListContainer;
+  constructor(pointListContainer, changeData, pointsModel, destinationsModel, offersModel) {
+    this.#pointListContainer = pointListContainer;
     this.#changeData = changeData;
     this.#pointsModel = pointsModel;
+    this.#destinationsModel = destinationsModel;
+    this.#offersModel = offersModel;
   }
 
   init = (callback) => {
@@ -25,8 +29,8 @@ export default class NewPointPresenter {
     if (this.#editingPointComponent !== null) {
       return;
     }
-    this.#destinations = this.#pointsModel.destinations;
-    this.#offers = this.#pointsModel.offers;
+    this.#destinations = this.#destinationsModel.destinations;
+    this.#offers = this.#offersModel.offers;
 
     this.#editingPointComponent = new EditPointView({
       destinations: this.#destinations,
@@ -36,9 +40,19 @@ export default class NewPointPresenter {
     this.#editingPointComponent.setFormSubmitHandler(this.#handleFormSubmit);
     this.#editingPointComponent.setDeleteClickHandler(this.#handleDeleteClick);
 
-    render(this.#editingPointComponent, this.container, RenderPosition.AFTERBEGIN);
+    render(this.#editingPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
     document.addEventListener('keydown', this.#escKeyDownHandler);
+  };
+
+  destroy = () => {
+    if (this.#editingPointComponent === null) {
+      return;
+    }
+    this.#destroyCallback?.();
+    remove(this.#editingPointComponent);
+    this.#editingPointComponent = null;
+    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
   #escKeyDownHandler = (evt) => {
@@ -50,16 +64,6 @@ export default class NewPointPresenter {
 
   #handleDeleteClick = () => {
     this.destroy();
-  };
-
-  destroy = () => {
-    if (this.#editingPointComponent === null) {
-      return;
-    }
-    this.#destroyCallback?.();
-    remove(this.#editingPointComponent);
-    this.#editingPointComponent = null;
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
 
   #handleFormSubmit = (point) => {

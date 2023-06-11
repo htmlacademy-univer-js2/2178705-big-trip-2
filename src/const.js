@@ -8,7 +8,7 @@ import {
   sortTimePoint
 } from './util';
 
-export const POINTS_COUNT = 15;
+export const POINTS_COUNT = 1;
 
 export const POINT_TYPES = ['taxi', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'restaurant'];
 
@@ -53,6 +53,7 @@ export const UPDATE_TYPES = {
   PATCH: 'PATCH',
   MINOR: 'MINOR',
   MAJOR: 'MAJOR',
+  INIT: 'INIT'
 };
 
 export const FILTER_TYPES = {
@@ -82,9 +83,9 @@ export const POINT_TEMPLATE = {
   basePrice: 0,
   dateFrom: dayjs(),
   dateTo: dayjs(),
-  destinationId: 0,
+  destination: 0,
   isFavorite: false,
-  offerIds: [],
+  offers: [],
   type: POINT_TYPES[0],
 };
 

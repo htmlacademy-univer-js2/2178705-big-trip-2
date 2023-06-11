@@ -39,10 +39,9 @@ export default class FilterPresenter {
   }
 
   init = () => {
-    const filters = this.filters;
     const previousFilterComponent = this.component;
 
-    this.component = new FilterView(filters, this.#filterModel.filter);
+    this.component = new FilterView(this.filters, this.#filterModel.filter);
     this.component.setFilterTypeChangeHandler(this.#handleFilterTypeChange);
 
     if (previousFilterComponent === null) {

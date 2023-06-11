@@ -1,19 +1,6 @@
 import dayjs from 'dayjs';
 import {DATE_FORMAT, DATE_TIME_FORMAT, HOUR_MINUTES_COUNT, TIME_FORMAT, TOTAL_DAY_MINUTES_COUNT} from './const';
 
-export const getRndNum = (a = 0, b = 1) => {
-  const lower = Math.ceil(Math.min(a, b));
-  const upper = Math.floor(Math.max(a, b));
-
-  return Math.floor(lower + Math.random() * (upper - lower + 1));
-};
-
-export const getRndElem = (elements) => {
-  const MIN = 0;
-  const max = elements.length - 1;
-  return elements[getRndNum(MIN, max)];
-};
-
 export const goLetterToUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export const isPointDateFuture = (dateFrom) => dayjs().diff(dateFrom, 'minute') <= 0;

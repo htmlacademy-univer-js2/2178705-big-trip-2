@@ -4,16 +4,17 @@ import { FILTER_DICT, FILTER_TYPES, UPDATE_TYPES } from '../const.js';
 
 export default class FilterPresenter {
   #container = null;
+  component = null;
+
   #filterModel = null;
   #pointsModel = null;
-  component = null;
 
   constructor(filterContainer, filterModel, pointsModel) {
     this.#container = filterContainer;
     this.#filterModel = filterModel;
     this.#pointsModel = pointsModel;
 
-    this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#pointsModel.addObserver(this.#handleModelEvent);
   }
 
   get filters() {
@@ -42,7 +43,7 @@ export default class FilterPresenter {
     const previousFilterComponent = this.component;
 
     this.component = new FilterView(this.filters, this.#filterModel.filter);
-    this.component.setFilterTypeChangeHandler(this.#handleFilterTypeChange);
+    this.component.setFilterTypeChangeHandler(this.#handleTypeChange);
 
     if (previousFilterComponent === null) {
       render(this.component, this.#container);
@@ -57,11 +58,11 @@ export default class FilterPresenter {
     this.init();
   };
 
-  #handleFilterTypeChange = (filterType) => {
-    if (this.#filterModel.filter === filterType) {
+  #handleTypeChange = (type) => {
+    if (this.#filterModel.filter === type) {
       return;
     }
 
-    this.#filterModel.setFilter(UPDATE_TYPES.MAJOR, filterType);
+    this.#filterModel.setFilter(UPDATE_TYPES.MAJOR, type);
   };
 }

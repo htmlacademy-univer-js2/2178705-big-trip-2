@@ -8,7 +8,7 @@ export const isPointDatePast = (dateTo) => dayjs().diff(dateTo, 'minute') > 0;
 export const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'minute') > 0 && dayjs().diff(dateTo, 'minute') < 0;
 
 const getZeroInDuration = (value) =>{
-  if (value < 9){
+  if (value < 10){
     return `0${value}`;
   } else {
     return `${value}`;

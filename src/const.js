@@ -80,10 +80,10 @@ export const EMPTY_POINTS_TEXT_TYPES = {
 };
 
 export const POINT_TEMPLATE = {
-  basePrice: 0,
+  basePrice: 250,
   dateFrom: dayjs(),
   dateTo: dayjs(),
-  destination: 0,
+  destination: 1,
   isFavorite: false,
   offers: [],
   type: POINT_TYPES[0],

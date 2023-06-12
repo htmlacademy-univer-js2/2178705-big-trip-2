@@ -2,7 +2,7 @@ import { render } from './framework/render.js';
 import MenuView from './view/menu-view.js';
 import NewPointButtonView from './view/new-point-button-view.js';
 import FilterPresenter from './presenter/filter-presenter.js';
-import BoardPresenter from './presenter/trip-presenter.js';
+import TripPresenter from './presenter/trip-presenter.js';
 import FilterModel from './model/filter-model.js';
 import PointsModel from './model/point-model.js';
 import OffersModel from './model/offers-model.js';
@@ -26,7 +26,7 @@ const initApp = async () => {
   const offersModel = new OffersModel(new OffersApiService(END_POINT, AUTHORIZATION));
   const filterModel = new FilterModel();
   const filterPresenter = new FilterPresenter(filterContainer, filterModel, pointsModel);
-  const tripPresenter = new BoardPresenter({container: tripContainer}, pointsModel, destinationsModel, offersModel, filterModel);
+  const tripPresenter = new TripPresenter({container: tripContainer}, pointsModel, destinationsModel, offersModel, filterModel);
   const newPointButtonComponent = new NewPointButtonView();
   const handleNewPointFormClose = () => {
     newPointButtonComponent.element.disabled = false;

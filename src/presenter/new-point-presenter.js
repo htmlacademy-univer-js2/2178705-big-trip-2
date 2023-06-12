@@ -1,26 +1,30 @@
 import { render, RenderPosition, remove } from '../framework/render.js';
 import EditPointView from '../view/edit-point-view.js';
 import { UPDATE_TYPES, USER_ACTIONS } from '../const.js';
-import { nanoid } from 'nanoid';
 
 export default class NewPointPresenter {
   #pointListContainer = null;
   #editingPointComponent = null;
-  #changeData = null;
-  #destroyCallback = null;
+
   #pointsModel = null;
   #destinationsModel = null;
+
   #offersModel = null;
   #destinations = null;
   #offers = null;
+
   #isNewPoint = true;
+  #changeData = null;
+  #destroyCallback = null;
 
   constructor(pointListContainer, changeData, pointsModel, destinationsModel, offersModel) {
     this.#pointListContainer = pointListContainer;
-    this.#changeData = changeData;
+
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
+
+    this.#changeData = changeData;
   }
 
   init = (callback) => {
@@ -42,7 +46,7 @@ export default class NewPointPresenter {
 
     render(this.#editingPointComponent, this.#pointListContainer, RenderPosition.AFTERBEGIN);
 
-    document.addEventListener('keydown', this.#escKeyDownHandler);
+    document.addEventListener('keydown', this.#closeOnEscHandler);
   };
 
   destroy = () => {
@@ -52,26 +56,44 @@ export default class NewPointPresenter {
     this.#destroyCallback?.();
     remove(this.#editingPointComponent);
     this.#editingPointComponent = null;
-    document.removeEventListener('keydown', this.#escKeyDownHandler);
+    document.removeEventListener('keydown', this.#closeOnEscHandler);
   };
 
-  #escKeyDownHandler = (evt) => {
+  setSaving = () => {
+    this.#editingPointComponent.updateElement({
+      isDisabled: true,
+      isSaving: true,
+    });
+  };
+
+  setAborting = () => {
+    const resetFormState = () => {
+      this.#editingPointComponent.updateElement({
+        isDisabled: false,
+        isSaving: false,
+        isDeleting: false,
+      });
+    };
+    this.#editingPointComponent.shake(resetFormState);
+  };
+
+  #closeOnEscHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
       evt.preventDefault();
       this.destroy();
     }
   };
 
-  #handleDeleteClick = () => {
-    this.destroy();
-  };
-
   #handleFormSubmit = (point) => {
     this.#changeData(
       USER_ACTIONS.ADD_POINT,
       UPDATE_TYPES.MINOR,
-      {id: nanoid(), ...point},
+      point,
     );
+    this.destroy();
+  };
+
+  #handleDeleteClick = () => {
     this.destroy();
   };
 }

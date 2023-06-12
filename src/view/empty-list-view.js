@@ -1,23 +1,20 @@
-import {createElement} from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
+import { EMPTY_POINTS_TEXT_TYPES } from '../const.js';
 
-const createEmptyListTemplate = () => (
-  ` <p class="trip-events__msg">Click New Event to create your first point</p>`
+const emptyPointsListTemplate = (filterType) => (
+  `<p class="trip-events__msg">
+  ${EMPTY_POINTS_TEXT_TYPES[filterType]}</p>`
 );
 
-export default class EmptyListView {
-  #element = null;
+export default class EmptyPointsListView extends AbstractView {
+  #filterType = null;
+
+  constructor(filterType){
+    super();
+    this.#filterType = filterType;
+  }
+
   get template() {
-    return createEmptyListTemplate();
-  }
-
-  get element() {
-    if (!this.#element){
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
+    return emptyPointsListTemplate(this.#filterType);
   }
 }

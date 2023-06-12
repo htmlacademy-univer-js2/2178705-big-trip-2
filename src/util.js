@@ -1,21 +1,46 @@
-import {TimeCount} from './const';
 import dayjs from 'dayjs';
+import {DATE_FORMAT, DATE_TIME_FORMAT, HOUR_MINUTES_COUNT, TIME_FORMAT, TOTAL_DAY_MINUTES_COUNT} from './const';
 
-export const humanizeDate = (rawDate, dateFormat) => dayjs(rawDate).format(dateFormat);
-export const getDuration = (startDate, endDate) => {
-  const start = dayjs(startDate);
-  const end = dayjs(endDate);
-  const diff = end.diff(start, 'minute');
-  const totalMinutesInDay = TimeCount.MINUTES * TimeCount.HOURS;
+export const goLetterToUpperCase = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-  const days = Math.floor(diff / totalMinutesInDay);
-  const hours = Math.floor(((diff - days * totalMinutesInDay) / TimeCount.MINUTES));
-  const minutes = diff - (days * totalMinutesInDay + hours * TimeCount.MINUTES);
+export const isPointDateFuture = (dateFrom) => dayjs().diff(dateFrom, 'minute') <= 0;
+export const isPointDatePast = (dateTo) => dayjs().diff(dateTo, 'minute') > 0;
+export const isPointDateFuturePast = (dateFrom, dateTo) => dayjs().diff(dateFrom, 'minute') > 0 && dayjs().diff(dateTo, 'minute') < 0;
 
-  const currentDays = (days) ? `${days}D` : '';
-  const currentHours = (hours) ? `${hours}H` : '';
-  const currentMinutes = (minutes) ? `${minutes}M` : '';
+const getZeroInDuration = (value) =>{
+  if (value < 10){
+    return `0${value}`;
+  } else {
+    return `${value}`;
+  }
+};
+export const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
+export const getHumanizeTime = (date) => dayjs(date).format('DD MMM');
+export const getTime = (date) => dayjs(date).format(TIME_FORMAT);
+export const getDate = (date) => dayjs(date).format(DATE_FORMAT);
+export const getDuration = (dateFrom, dateTo) => {
+  const start = dayjs(dateFrom);
+  const end = dayjs(dateTo);
+  const difference = end.diff(start, 'minute');
 
-  return `${currentDays} ${currentHours} ${currentMinutes}`;
+  const days = Math.floor(difference / TOTAL_DAY_MINUTES_COUNT);
+  const restHours = Math.floor((difference - days * TOTAL_DAY_MINUTES_COUNT) / HOUR_MINUTES_COUNT);
+  const restMinutes = difference - (days * TOTAL_DAY_MINUTES_COUNT + restHours * HOUR_MINUTES_COUNT);
+
+  const daysOutput = (days) ? `${getZeroInDuration(days)}D` : '';
+  const hoursOutput = (restHours) ? `${getZeroInDuration(restHours)}H` : '';
+  const minutesOutput = (restMinutes) ? `${getZeroInDuration(restMinutes)}M` : '';
+
+
+  return `${daysOutput} ${hoursOutput} ${minutesOutput}`;
 };
 
+export const sortPricePoint = (pointA, pointB) => pointB.basePrice - pointA.basePrice;
+
+export const sortDayPoint = (pointA, pointB) => dayjs(pointA.dateFrom).diff(dayjs(pointB.dateFrom));
+
+export const sortTimePoint = (pointA, pointB) => {
+  const timePointA = dayjs(pointA.dateTo).diff(dayjs(pointA.dateFrom));
+  const timePointB = dayjs(pointB.dateTo).diff(dayjs(pointB.dateFrom));
+  return timePointB - timePointA;
+};

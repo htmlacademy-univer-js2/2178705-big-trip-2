@@ -1,25 +1,15 @@
-import {createElement} from '../render';
-const createMenuTemplate = () => (
-  `<nav className="trip-controls__trip-tabs  trip-tabs">
-    <a className="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
-    <a className="trip-tabs__btn" href="#">Stats</a>
-   </nav>`);
+import AbstractView from '../framework/view/abstract-view.js';
 
-export default class MenuView{
-  #element = null;
+const createMenuTemplate = () => (
+  `<nav class="trip-controls__trip-tabs  trip-tabs">
+    <a class="trip-tabs__btn  trip-tabs__btn--active" href="#">Table</a>
+    <a class="trip-tabs__btn" href="#">Stats</a>
+  </nav>`
+);
+
+export default class MenuView extends AbstractView {
 
   get template() {
     return createMenuTemplate();
-  }
-
-  get element() {
-    if (!this.#element){
-      this.#element = createElement(this.template);
-    }
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

@@ -15,10 +15,10 @@ const getZeroInDuration = (value) =>{
   }
 };
 export const getDateTime = (date) => dayjs(date).format(DATE_TIME_FORMAT);
-export const humanizeTime = (date) => dayjs(date).format('DD MMM');
+export const getHumanizeTime = (date) => dayjs(date).format('DD MMM');
 export const getTime = (date) => dayjs(date).format(TIME_FORMAT);
 export const getDate = (date) => dayjs(date).format(DATE_FORMAT);
-export const duration = (dateFrom, dateTo) => {
+export const getDuration = (dateFrom, dateTo) => {
   const start = dayjs(dateFrom);
   const end = dayjs(dateTo);
   const difference = end.diff(start, 'minute');

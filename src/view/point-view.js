@@ -1,4 +1,4 @@
-import { humanizeTime, getTime, getDate, duration } from '../util';
+import { getHumanizeTime, getTime, getDate, getDuration } from '../util';
 import AbstractView from '../framework/view/abstract-view.js';
 import he from 'he';
 
@@ -23,11 +23,11 @@ const createPointTemplate = (point, destinations, allOffers) => {
 
   const allPointTypeOffers = allOffers.find((offer) => offer.type === type);
 
-  const eventDuration = duration(dateFrom, dateTo);
+  const eventDuration = getDuration(dateFrom, dateTo);
 
-  const startDate = dateFrom !== null ? humanizeTime(dateFrom) : '';
+  const startDate = dateFrom !== null ? getHumanizeTime(dateFrom) : '';
 
-  const endDate = dateTo !== null ? humanizeTime(dateTo) : '';
+  const endDate = dateTo !== null ? getHumanizeTime(dateTo) : '';
   return (
     `<li class="trip-events__item">
       <div class="event">

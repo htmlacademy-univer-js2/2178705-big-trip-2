@@ -128,7 +128,6 @@ const createEditPointTemplate = (point, destinations, allOffers, isNewPoint) => 
 export default class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #offers = null;
-  #offersByType = null;
 
   #datepickerFrom = null;
   #datepickerTo = null;
@@ -141,7 +140,6 @@ export default class EditPointView extends AbstractStatefulView {
     this._state = EditPointView.handlePointToState(point);
     this.#destinations = destinations;
     this.#offers = offers;
-    this.#offersByType = this.#offers.find((offer) => offer.type === this._state.type);
     this.#isNewPoint = isNewPoint;
 
     this._restoreHandlers();

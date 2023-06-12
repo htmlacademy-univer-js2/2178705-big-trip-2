@@ -6,10 +6,9 @@ export default class NewPointPresenter {
   #pointListContainer = null;
   #editingPointComponent = null;
 
-  #pointsModel = null;
   #destinationsModel = null;
-
   #offersModel = null;
+
   #destinations = null;
   #offers = null;
 
@@ -17,10 +16,9 @@ export default class NewPointPresenter {
   #changeData = null;
   #destroyCallback = null;
 
-  constructor(pointListContainer, changeData, pointsModel, destinationsModel, offersModel) {
+  constructor(pointListContainer, changeData, destinationsModel, offersModel) {
     this.#pointListContainer = pointListContainer;
 
-    this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
 

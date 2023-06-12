@@ -1,4 +1,4 @@
-export const AUTHORIZATION = 'Basic jksy452wghs231hdgy';
+export const AUTHORIZATION = 'Basic eo0w590ik548hfggrs9889a';
 export const END_POINT = 'https://18.ecmascript.pages.academy/big-trip';
 
 export const Method = {

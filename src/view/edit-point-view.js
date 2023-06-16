@@ -145,6 +145,11 @@ export default class EditPointView extends AbstractStatefulView {
     this._restoreHandlers();
   }
 
+  get template() {
+    return createEditPointTemplate(this._state, this.#destinations, this.#offers, this.isNewPoint);
+  }
+
+
   removeElement = () => {
     super.removeElement();
     if (this.#datepickerFrom) {
@@ -156,11 +161,6 @@ export default class EditPointView extends AbstractStatefulView {
       this.#datepickerTo = null;
     }
   };
-
-
-  get template() {
-    return createEditPointTemplate(this._state, this.#destinations, this.#offers, this.isNewPoint);
-  }
 
   #setInnerHandlers = () => {
     this.element.querySelector('.event__type-list').addEventListener('change', this.#typeChangeHandler);
@@ -218,8 +218,9 @@ export default class EditPointView extends AbstractStatefulView {
 
   #priceChangeHandler = (evt) => {
     evt.preventDefault();
+    const price = evt.target.value;
     this._setState({
-      basePrice: evt.target.value,
+      basePrice: price,
     });
   };
 
@@ -234,6 +235,9 @@ export default class EditPointView extends AbstractStatefulView {
   #destinationChangeHandler = (evt) => {
     evt.preventDefault();
     const destination = this.#destinations.find((dest) => dest.name === evt.target.value);
+    if (destination === undefined) {
+      return;
+    }
     this.updateElement({
       destination: destination.id,
     });

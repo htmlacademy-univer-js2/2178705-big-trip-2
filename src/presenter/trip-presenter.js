@@ -37,7 +37,7 @@ export default class TripPresenter {
 
   constructor(container, informationContainer, pointsModel, destinationsModel, offersModel, filterModel){
     this.#container = container;
-    this.#informationContainer = informationContainer
+    this.#informationContainer = informationContainer;
     this.#pointsModel = pointsModel;
     this.#destinationsModel = destinationsModel;
     this.#offersModel = offersModel;
@@ -75,6 +75,9 @@ export default class TripPresenter {
   #renderInformation = () => {
     this.#informationPresenter = new InformationPresenter(this.#informationContainer, this.#destinationsModel, this.#offersModel);
     const sortedPoints = SORT_DICT[SORT_TYPES.DAY](this.points);
+    if (sortedPoints.length === 0){
+      return;
+    }
     this.#informationPresenter.init(sortedPoints);
   };
 
@@ -129,8 +132,8 @@ export default class TripPresenter {
         break;
       case UPDATE_TYPES.MINOR:
         this.#clearTrip();
-        this.#clearInformation()
-        this.#renderInformation()
+        this.#clearInformation();
+        this.#renderInformation();
         this.#renderTrip();
         break;
       case UPDATE_TYPES.MAJOR:

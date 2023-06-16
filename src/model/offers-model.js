@@ -14,7 +14,6 @@ export default class OffersModel extends Observable{
       this.#offers = await this.#offersApiService.offers;
     } catch(error) {
       this.#offers = [];
-      console.error(error.message)
     }
   };
 

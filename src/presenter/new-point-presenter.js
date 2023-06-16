@@ -88,7 +88,6 @@ export default class NewPointPresenter {
       UPDATE_TYPES.MINOR,
       point,
     );
-    this.destroy();
   };
 
   #handleDeleteClick = () => {
